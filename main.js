@@ -4,11 +4,12 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector(".preloader").style.display = "none";
+})
 
 //SCENE
 const scene = new THREE.Scene()
-
-
 
 
 //SIZES
