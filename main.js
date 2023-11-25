@@ -4,9 +4,26 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelector(".preloader").style.display = "none";
-})
+// document.addEventListener("DOMContentLoaded", () => {
+//   document.querySelector(".preloader").style.display = "none";
+// })
+
+const loadingManager = new THREE.LoadingManager();
+const progressBar = document.querySelector(".progressBar");
+const preLoader = document.querySelector(".preloader");
+
+loadingManager.onProgress = function (url, loaded, total) {
+  progressBar.value = (loaded / total) * 100;
+  console.log("OnProgress")
+}
+
+loadingManager.onLoad = function () {
+  preLoader.style.display = "none"
+}
+
+// loadingManager.onError = function (url) {
+//   console.log("Got a Problem");
+// }
 
 //SCENE
 const scene = new THREE.Scene()
@@ -48,7 +65,7 @@ scene.add( pointLightHelper );
 
 //Loader
 let can;
-const GLloader = new GLTFLoader()
+const GLloader = new GLTFLoader(loadingManager)
 GLloader.load('/car.gltf', (glb) => {
   can = glb.scene
   can.position.set(0,-1,0)
